@@ -112,8 +112,9 @@
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="cropped" value="true" />
-                                      <entry key="imageAsset" value="C:\Users\SUHAS\Desktop\man.jpg" />
-                                      <entry key="outputName" value="man" />
+                                      <entry key="iconShape" value="CIRCLE" />
+                                      <entry key="imageAsset" value="C:\Users\SUHAS\Desktop\navigo.png" />
+                                      <entry key="outputName" value="navi" />
                                     </map>
                                   </option>
                                 </PersistentState>
