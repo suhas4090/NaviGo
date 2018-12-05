@@ -60,13 +60,14 @@ public class LoginActivity extends AppCompatActivity {
 
     private SignInButton signInButton;
     private int RC_SIGN_IN = 1;
-    private GoogleSignInClient mGoogleSignInClient;
+    private static GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Log.d(TAG, "onCreate: ++++++++++++++++++++++++++++++++++++++");
         // Set up the login form.
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -91,6 +92,32 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ++++++++++++++++++++++++++++++++++");
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null)
+            updateUI(currentUser);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: +++++++++++++++++++++++++++++++++++ ");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart:+++++++++++++++++++++++++++++++++++= ");
+    }
+
+    public static void signOut(){
+        mGoogleSignInClient.signOut();
+    }
+
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -101,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
+//        if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // Google Sign In was successful, authenticate with Firebase
@@ -112,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.w(TAG, "Google sign in failed", e);
                 // ...
             }
-        }
+//        }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -151,7 +178,9 @@ public class LoginActivity extends AppCompatActivity {
             String personId = acct.getId();
             Uri personPhoto = acct.getPhotoUrl();
 
-            Toast.makeText(this, "Name of the user" + personName + "Person ID" + personId, Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "updateUI: photo = "+personPhoto);
+
+            Toast.makeText(this, "Name of the user" + personName + "Person photo" + personPhoto, Toast.LENGTH_SHORT).show();
 //            signOutButton.setVisibility(View.VISIBLE);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
