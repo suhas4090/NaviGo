@@ -164,6 +164,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         if (task.isSuccessful()) {
                             Log.d(TAG, "onComplete: found location");
                             Location temp = (Location) task.getResult();
+                            if (temp!=null)
                             currentLocation = new LatLng(temp.getLatitude(), temp.getLongitude());
                         } else {
                             Log.d(TAG, "onComplete: current location is null");
@@ -231,6 +232,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
                 @Override
                 public boolean onMyLocationButtonClick() {
+                    if (currentLocation!=null)
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15f));
 //                    String url = getRequestUrl(listPoints);
 //                    Log.i("onMyLocationButtonClick", "user searching for the root" + url);

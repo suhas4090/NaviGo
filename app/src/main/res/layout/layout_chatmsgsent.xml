@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chatlistsend"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="10dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/layout_chatsender">
+
+        <!--<TextView-->
+            <!--android:id="@+id/chatmsgfrom"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="suhassasuke"-->
+            <!--android:textColor="@color/colorAccent"-->
+            <!--android:textSize="15sp"-->
+            <!--android:textStyle="bold" />-->
+
+        <TextView
+            android:id="@+id/msgsent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chatmsgfrom"
+            android:text="You are sending message"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/chatmsgtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/msgsent"
+            android:layout_alignRight="@id/msgsent"
+            android:paddingTop="5dp"
+            android:text="0:00 AM"
+            android:textSize="10sp" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -25,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.location.navigo.adapter.RecyclerViewAdapter;
+import com.location.navigo.adapter.UserList;
 import com.location.navigo.db.Model;
 
 import java.util.ArrayList;
@@ -36,7 +36,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
+    //currentuser
+    public static String currentuser;
+
     //vars
+    private ArrayList<String> mId = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<Boolean> dStatus = new ArrayList<>();
     private ArrayList<String> mAddress = new ArrayList<>();
@@ -46,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     //firebase
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    Object object;
 
 
     ArrayList<GeoPoint> geoPoints = new ArrayList<GeoPoint>();
@@ -60,9 +63,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: started");
 
+        Bundle extras = getIntent().getExtras();
+        currentuser = (String) extras.get("currentuser");
+
         if (isServicesOK()) {
             initCustomer();
         }
+
     }
 
     public boolean isServicesOK() {
@@ -132,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData().get("name"));
+                                mId.add(String.valueOf(document.getData().get("id")));
                                 mNames.add(String.valueOf(document.getData().get("name")));
                                 dStatus.add((Boolean) document.getData().get("status"));
                                 geoPoints.add((GeoPoint) document.getData().get("location"));
@@ -152,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
     private void initRecyclerView() {
         Log.d(TAG, "initRecyclerView: init recyclerview");
         RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(mNames, mAddress, mQuantity, mPhoneNo, dStatus, geoPoints, this);
+        UserList adapter = new UserList(mId, mNames, mAddress, mQuantity, mPhoneNo, dStatus, geoPoints, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

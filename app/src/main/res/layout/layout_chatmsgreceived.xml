@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chatlistreceived"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layout_chatreceiver">
+
+    <TextView
+        android:id="@+id/chatmsgfrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="From"
+        android:textColor="@color/colorAccent"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/msgreceived"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chatmsgfrom"
+        android:text="You are Receiving message"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/msgreceivedtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/msgreceived"
+        android:paddingTop="5dp"
+        android:layout_alignRight="@id/msgreceived"
+        android:text="0:00 AM"
+        android:textSize="10sp" />
+    </RelativeLayout>
+</RelativeLayout>
