@@ -1,45 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="20dp">
+    android:orientation="horizontal"
+    android:elevation="10dp"
+    android:layout_margin="10dp">
+<RelativeLayout
+    android:layout_margin="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <TextView
-        android:id="@+id/name"
-        android:layout_width="match_parent"
+        android:id="@+id/cardname"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="this is testing"
+        android:text="Name"
         android:textColor="#55d"
         android:textSize="20dp" />
 
     <TextView
-        android:id="@+id/deliverystatus"
+        android:id="@+id/cardquantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/name"
-        android:text="STATUS: "
+        android:text="quantity"
         android:textColor="#55d"
         android:textSize="15dp" />
 
     <TextView
-        android:id="@+id/status"
+        android:id="@+id/cardstatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/name"
-        android:layout_toRightOf="@+id/deliverystatus"
-        android:text="Reasult"
+        android:layout_below="@+id/quantity"
+        android:text="status"
         android:textColor="#55d"
         android:textSize="15dp" />
 
-    <android.support.design.widget.FloatingActionButton
+    <TextView
+        android:id="@+id/cardaddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/status"
+        android:text="address"
+        android:textColor="#55d"
+        android:textSize="15dp" />
+    </LinearLayout>
+    <ImageView
+        android:layout_gravity="center"
         android:id="@+id/mapviewer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@android:drawable/ic_dialog_map" />
-
+        app:srcCompat="@mipmap/marker_icon" />
 </RelativeLayout>
+</android.support.v7.widget.CardView>
