@@ -184,6 +184,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Name of the user" + personName + "Person photo" + personPhoto, Toast.LENGTH_SHORT).show();
 //            signOutButton.setVisibility(View.VISIBLE);
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("url",personPhoto);
             startActivity(intent);
             this.finish();
         }

@@ -15,11 +15,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "181373148538-okrj0igpmijoc9b2i9f84uk2kge427om.apps.googleusercontent.com",
+          "client_id": "181373148538-dndh9g167cisflnc3gubu34h1aaogk7c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.location.navigo",
-            "certificate_hash": "aadedaefcc419b096e44bf162c7a975fa6ed4a6c"
+            "certificate_hash": "f812461d357ba785af9f6d86c2ed2027acac2871"
+          }
+        },
+        {
+          "client_id": "181373148538-4dhkj946gotljbonlf79r0iuimkh68kd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.location.navigo",
+            "certificate_hash": "1c960d845c86b2fc24f780e3bf7343abf0d91425"
           }
         },
         {
@@ -31,11 +39,11 @@
           }
         },
         {
-          "client_id": "181373148538-4dhkj946gotljbonlf79r0iuimkh68kd.apps.googleusercontent.com",
+          "client_id": "181373148538-okrj0igpmijoc9b2i9f84uk2kge427om.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.location.navigo",
-            "certificate_hash": "1c960d845c86b2fc24f780e3bf7343abf0d91425"
+            "certificate_hash": "aadedaefcc419b096e44bf162c7a975fa6ed4a6c"
           }
         },
         {

@@ -3,7 +3,11 @@ package com.location.navigo;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +16,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -22,11 +28,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.location.navigo.adapter.RecyclerViewAdapter;
 import com.location.navigo.db.Model;
+import com.location.navigo.network.DownloadImage;
 
 import java.util.ArrayList;
 
@@ -47,7 +55,11 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     Object object;
-
+    private DrawerLayout mDrawerLayout;
+    NavigationView navigationView;
+    ImageView menu,menuProfileImage;
+    Uri photoUrl;
+    DownloadImage downloadImage;
 
     ArrayList<GeoPoint> geoPoints = new ArrayList<GeoPoint>();
 //    ArrayList<Double> latitude = new ArrayList<Double>();
@@ -60,9 +72,49 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: started");
 
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setTimestampsInSnapshotsEnabled(true)
+                .build();
+        db.setFirestoreSettings(settings);
+
+        Bundle extras = getIntent().getExtras();
+        photoUrl = (Uri) extras.get("url");
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        menu = findViewById(R.id.menu_button);
+        menuProfileImage = findViewById(R.id.menu_profile_image);
+
+        downloadImage = new DownloadImage(menuProfileImage);
+        downloadImage.execute(photoUrl.toString());
+
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // set item as selected to persist highlight
+                        menuItem.setChecked(true);
+                        // close drawer when item is tapped
+                        mDrawerLayout.closeDrawers();
+
+                        // Add code here to update the UI based on the item selected
+                        // For example, swap UI fragments here
+
+                        return true;
+                    }
+                });
+
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
         if (isServicesOK()) {
             initCustomer();
         }
+
     }
 
     public boolean isServicesOK() {
