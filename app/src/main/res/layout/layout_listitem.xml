@@ -21,7 +21,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name"
-        android:textColor="#55d"
         android:textSize="20dp" />
 
     <TextView
@@ -30,7 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/name"
         android:text="quantity"
-        android:textColor="#55d"
         android:textSize="15dp" />
 
     <TextView
@@ -39,7 +37,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/quantity"
         android:text="status"
-        android:textColor="#55d"
         android:textSize="15dp" />
 
     <TextView
@@ -48,7 +45,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/status"
         android:text="address"
-        android:textColor="#55d"
         android:textSize="15dp" />
     </LinearLayout>
     <ImageView

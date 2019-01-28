@@ -185,6 +185,7 @@ public class LoginActivity extends AppCompatActivity {
 //            signOutButton.setVisibility(View.VISIBLE);
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("url",personPhoto);
+            intent.putExtra("email", personEmail);
             startActivity(intent);
             this.finish();
         }

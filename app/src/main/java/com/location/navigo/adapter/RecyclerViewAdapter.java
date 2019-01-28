@@ -27,21 +27,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private static final String TAG = "RecyclerViewAdapter";
 
     private ArrayList<String> namelist = new ArrayList<>();
-    private ArrayList<Boolean> dStatus = new ArrayList<>();
-    private ArrayList<GeoPoint> geoPoints = new ArrayList<>();
+    private ArrayList<String> dStatus = new ArrayList<>();
+    private ArrayList<GeoPoint> mCoordinates = new ArrayList<>();
     private ArrayList<String> mAddress = new ArrayList<>();
     private ArrayList<Number> mPhoneNo = new ArrayList<>();
     private ArrayList<Number> mQuantity = new ArrayList<>();
+    private ArrayList<Number> mCustomerId = new ArrayList<>();
+    private ArrayList<String> mDeliveryAgent = new ArrayList<>();
     private Context mContext;
 
-    public RecyclerViewAdapter(ArrayList<String> name,ArrayList<String> address,ArrayList<Number> quantity, ArrayList<Number> phoneNo, ArrayList<Boolean> dStatus, ArrayList<GeoPoint> geoPoints, Context mContext) {
+    public RecyclerViewAdapter(ArrayList<String> name,ArrayList<String> address,ArrayList<Number> quantity,
+                               ArrayList<Number> phoneNo, ArrayList<String> dStatus, ArrayList<GeoPoint> coordinates,
+                               ArrayList<Number> customerId, ArrayList<String> deliveryAgent, Context mContext) {
         this.namelist = name;
         this.dStatus = dStatus;
         this.mContext = mContext;
-        this.geoPoints = geoPoints;
+        this.mCoordinates = coordinates;
         this.mAddress = address;
         this.mPhoneNo = phoneNo;
         this.mQuantity = quantity;
+        this.mCustomerId = customerId;
+        this.mDeliveryAgent = deliveryAgent;
+
     }
 
     @NonNull
@@ -57,7 +64,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Log.d(TAG, "onBindViewHolder: called.");
 
         viewHolder.name.setText(namelist.get(i));
-        viewHolder.dStatus.setText(dStatus.get(i) == true ? "Complete" : "InComplete");
+        viewHolder.quantity.setText("Quantity: "+ String.valueOf(mQuantity.get(i)));
+        viewHolder.address.setText(mAddress.get(i));
+        viewHolder.dStatus.setText(dStatus.get(i) != "pending" ? "Complete" : "InComplete");
         viewHolder.map.setOnClickListener(new View.OnClickListener() {
             Intent intent = new Intent(mContext, MapsActivity.class);
 
@@ -66,8 +75,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Log.d("clicking", "this is clicking");
                 intent.putExtra("AllMap", false);
                 intent.putExtra("Names", namelist.get(i));
-                intent.putExtra("latitude", geoPoints.get(i).getLatitude());
-                intent.putExtra("longitude", geoPoints.get(i).getLongitude());
+                intent.putExtra("latitude", mCoordinates.get(i).getLatitude());
+                intent.putExtra("longitude", mCoordinates.get(i).getLongitude());
                 mContext.startActivity(intent);
             }
         });
@@ -94,8 +103,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name;
-        TextView dStatus;
+        TextView name,dStatus,quantity,address;
+
         ImageView map;
         CardView parentLayout;
 
@@ -103,6 +112,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
             name = itemView.findViewById(R.id.cardname);
             dStatus = itemView.findViewById(R.id.cardstatus);
+            quantity = itemView.findViewById(R.id.cardquantity);
+            address = itemView.findViewById(R.id.cardaddress);
             map = itemView.findViewById(R.id.mapviewer);
             parentLayout = itemView.findViewById(R.id.parent_layout);
         }

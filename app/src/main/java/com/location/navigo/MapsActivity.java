@@ -62,8 +62,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Location myLocation;
     LatLng currentLocation;
 
-    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSTION_REQUEST_CODE = 1234;
     private static final int DEFAULT_BOUNDS = 200;
 
@@ -80,19 +78,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ArrayList<LatLng> listPoints = new ArrayList<LatLng>();
 
 
+    String[] permission = {Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION};
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
         getLocationPermission();
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-//        CheckPermission();
 
         Bundle extras = getIntent().getExtras();
         boolean status = (boolean) extras.get("AllMap");
@@ -123,31 +117,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void iniMap() {
+    private void RefreshMap() {
         Log.d(TAG, "iniMap: initialized maps");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapsActivity.this);
     }
 
     private void getLocationPermission() {
-        Log.d(TAG, "getLocationPermission: getting location permission");
-        String[] permission = {Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION};
-
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                    COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                mLocationPermissionsGranted = true;
-                iniMap();
-            } else {
-                ActivityCompat.requestPermissions(this, permission,
-                        LOCATION_PERMISSTION_REQUEST_CODE);
-            }
-        } else {
-            ActivityCompat.requestPermissions(this, permission,
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+            ActivityCompat.requestPermissions(this,
+                    permission,
                     LOCATION_PERMISSTION_REQUEST_CODE);
-        }
     }
 
     private void getDeviceLocation() {
@@ -189,14 +173,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, "onMapReady: Map is ready");
         try {
             mMap = googleMap;
-
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
             if (mLocationPermissionsGranted) {
                 getDeviceLocation();
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                   return;
-                }
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().isCompassEnabled();
 
@@ -265,7 +248,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             int size = list.size();
             for (LatLng temp : list) {
                 Log.d(TAG, "getRequestUrl: " + temp);
-                temppoints.append(temp.latitude).append(",").append(temp.longitude).append("|");
+                temppoints.append(temp.latitude).append(",").append
+                        (temp.longitude).append("|");
             }
             waypoints = waypoints + temppoints;
 
@@ -337,8 +321,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                     Log.d(TAG, "onRequestPermissionsResult: Permission Granted");
                     mLocationPermissionsGranted=true;
-                    //initialize our map
-                    iniMap();
+                    //Refresh map
+                    RefreshMap();
 
                 }
                 break;

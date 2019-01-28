@@ -9,21 +9,20 @@ public class UserProfile extends AppCompatActivity {
     private TextView name,address,quantity,mobile,status;
 
     //vars
-    String mName,mAddress;
+    String mName,mAddress,mStatus;
     Number mQuantity,mPhoneNo;
-    Boolean mStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.activity_customer_profile);
 
         Bundle extras = getIntent().getExtras();
         mName = (String) extras.get("Names");
         mAddress = (String) extras.get("Address");
         mQuantity = (Number) extras.get("Quantity");
         mPhoneNo = (Number) extras.get("PhoneNo");
-        mStatus = (boolean) extras.get("Status");
+        mStatus = (String) extras.get("Status");
 
         name = (TextView) findViewById(R.id.name);
         address = (TextView) findViewById(R.id.address);
@@ -35,7 +34,7 @@ public class UserProfile extends AppCompatActivity {
         address.setText(mAddress);
         quantity.setText(mQuantity.toString());
         mobile.setText(mPhoneNo.toString());
-        if (mStatus) {
+        if (mStatus!="pending") {
             status.setText("Complete");
         } else {
             status.setText("InComplete");
