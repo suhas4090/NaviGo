@@ -8,11 +8,16 @@
     android:orientation="vertical"
     tools:context=".UserProfile">
 
-    <ImageView
+    <com.location.navigo.custom_view.SquareRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        app:layout_widthPercent="100%"
-        app:layout_aspectRatio="100%"
-        android:src="@mipmap/nav_menu_header_bg"/>
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/nav_menu_header_bg"/>
+    </com.location.navigo.custom_view.SquareRelativeLayout>
+
 
 </LinearLayout>

@@ -49,6 +49,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -58,7 +61,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
 
-    private SignInButton signInButton;
+    @BindView(R.id.sign_in_button)
+    SignInButton signInButton;
     private int RC_SIGN_IN = 1;
     private static GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
@@ -71,7 +75,6 @@ public class LoginActivity extends AppCompatActivity {
         // Set up the login form.
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-        signInButton = (SignInButton) findViewById(R.id.sign_in_button);
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -84,12 +87,11 @@ public class LoginActivity extends AppCompatActivity {
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signIn();
-            }
-        });
+    }
+
+    @OnClick(R.id.sign_in_button)
+    protected void OnSignInButtonClicked(){
+        signIn();
     }
 
     @Override

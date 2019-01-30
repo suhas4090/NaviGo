@@ -39,6 +39,9 @@ import com.location.navigo.network.DownloadImage;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -59,18 +62,19 @@ public class MainActivity extends AppCompatActivity {
     //firebase
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    Object object;
-    private DrawerLayout mDrawerLayout;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+
     NavigationView navigationView;
-    ImageView menu, menuProfileImage, drawerProfileImage;
-    Uri photoUrl;
-    String email;
-    DownloadImage downloadImage;
+
+    ImageView menuProfileImage;
+
+    ImageView drawerProfileImage;
     TextView drawerEmailId;
 
-//    ArrayList<GeoPoint> geoPoints = new ArrayList<GeoPoint>();
-//    ArrayList<Double> latitude = new ArrayList<Double>();
-//    ArrayList<Double> longitude = new ArrayList<Double>();
+    Uri photoUrl;
+    String email = "";
+    DownloadImage downloadImage;
 
 
     @Override
@@ -88,19 +92,15 @@ public class MainActivity extends AppCompatActivity {
         photoUrl = (Uri) extras.get("url");
         email = (String) extras.get("email");
 
-        drawerProfileImage = findViewById(R.id.drawer_profile_image);
-        drawerEmailId = findViewById(R.id.drawer_emailId);
-
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        menu = findViewById(R.id.menu_button);
-        menuProfileImage = findViewById(R.id.menu_profile_image);
-
-        downloadImage = new DownloadImage(menuProfileImage);
+        navigationView = findViewById(R.id.nav_view);
+        menuProfileImage =findViewById(R.id.menu_profile_image);
+        View view = navigationView.getHeaderView(0);
+        drawerProfileImage = view.findViewById(R.id.drawer_profile_image);
+        drawerEmailId = view.findViewById(R.id.drawer_emailId);
+        drawerEmailId.setText(""+email);
+        downloadImage = new DownloadImage(menuProfileImage, drawerProfileImage);
         downloadImage.execute(photoUrl.toString());
 
-//        drawerEmailId.setText(email);
-
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -145,17 +145,15 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDrawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
-
         if (isServicesOK()) {
             initCustomer();
         }
 
+    }
+
+    @OnClick(R.id.menu_button)
+    public void OnMenuButtonClick(){
+        mDrawerLayout.openDrawer(GravityCompat.START);
     }
 
     public boolean isServicesOK() {

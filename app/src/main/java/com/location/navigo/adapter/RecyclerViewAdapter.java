@@ -17,11 +17,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.GeoPoint;
+import com.location.navigo.CustomerProfile;
 import com.location.navigo.MapsActivity;
 import com.location.navigo.R;
 import com.location.navigo.UserProfile;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "RecyclerViewAdapter";
@@ -36,7 +40,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<String> mDeliveryAgent = new ArrayList<>();
     private Context mContext;
 
-    public RecyclerViewAdapter(ArrayList<String> name,ArrayList<String> address,ArrayList<Number> quantity,
+    public RecyclerViewAdapter(ArrayList<String> name, ArrayList<String> address, ArrayList<Number> quantity,
                                ArrayList<Number> phoneNo, ArrayList<String> dStatus, ArrayList<GeoPoint> coordinates,
                                ArrayList<Number> customerId, ArrayList<String> deliveryAgent, Context mContext) {
         this.namelist = name;
@@ -64,7 +68,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Log.d(TAG, "onBindViewHolder: called.");
 
         viewHolder.name.setText(namelist.get(i));
-        viewHolder.quantity.setText("Quantity: "+ String.valueOf(mQuantity.get(i)));
+        viewHolder.quantity.setText("Quantity: " + String.valueOf(mQuantity.get(i)));
         viewHolder.address.setText(mAddress.get(i));
         viewHolder.dStatus.setText(dStatus.get(i) != "pending" ? "Complete" : "InComplete");
         viewHolder.map.setOnClickListener(new View.OnClickListener() {
@@ -80,12 +84,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 mContext.startActivity(intent);
             }
         });
+
         viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: clicked on : " + namelist.get(i));
                 Toast.makeText(mContext, namelist.get(i), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mContext, UserProfile.class);
+                Intent intent = new Intent(mContext, CustomerProfile.class);
                 intent.putExtra("Names", namelist.get(i));
                 intent.putExtra("Address", mAddress.get(i));
                 intent.putExtra("Quantity", mQuantity.get(i));
@@ -103,19 +108,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name,dStatus,quantity,address;
+        @BindView(R.id.cardname)
+        TextView name;
+        @BindView(R.id.cardstatus)
+        TextView dStatus;
+        @BindView(R.id.cardquantity)
+        TextView quantity;
+        @BindView(R.id.cardaddress)
+        TextView address;
 
+        @BindView(R.id.mapviewer)
         ImageView map;
+
+        @BindView(R.id.parent_layout)
         CardView parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.cardname);
-            dStatus = itemView.findViewById(R.id.cardstatus);
-            quantity = itemView.findViewById(R.id.cardquantity);
-            address = itemView.findViewById(R.id.cardaddress);
-            map = itemView.findViewById(R.id.mapviewer);
-            parentLayout = itemView.findViewById(R.id.parent_layout);
+            ButterKnife.bind(this, itemView);
         }
     }
 }
